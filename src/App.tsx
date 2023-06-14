@@ -5,7 +5,8 @@ function avisarAPI(){
 }
 export function App() {
   const [list, setList] = useState<string[]>([])
-  
+  const [filter, setFilter] =useState('') 
+
   useEffect(() => {
     if (list.length != 0)
       avisarAPI()
@@ -19,15 +20,28 @@ export function App() {
     })
   },[])
 
+  const filteredList = list.filter(item => item.includes(filter))
+
   function addToList() {
-    setlist(state => [...state,'Novo item'])
+    setList(state => [...state,'Novo item'])
   }
   return (
     <>
       <div>
+        <input
+          type='text'
+          onChange={e => setFilter(e.target.value)}
+          value={filter}
+        />
+        
         <ul>
           {list.map(item => <li>{item}</li>)}
         </ul>
+
+        <ul>
+          {filteredList.map(item => <li>{item}</li>)}
+        </ul>
+
         <button onClick={addToList}>Add to list</button>
       </div>
     </>
